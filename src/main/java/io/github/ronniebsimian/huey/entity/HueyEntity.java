@@ -74,7 +74,10 @@ public class HueyEntity extends VehicleEntity {
 	private static final float GUN_DAMAGE = 4.0F;
 	private static final double GUN_RANGE = 96.0;
 	private static final float GUN_HEAT_PER_SHOT = 3.5F;
-	private static final float GUN_OVERHEAT = 100.0F;
+	private static final float GUN_OVERHEAT = 100.0F;           // ~29 rounds (~4.4 s) of continuous fire
+	private static final int GUN_OVERHEAT_LOCK_TICKS = 75;      // ~4 s locked out after overheating
+	private static final float GUN_UNLOCK_HEAT = 25.0F;
+	private static final float GUN_COOL_PER_TICK = 1.5F;
 
 	// ------------------------------------------------------------------ seats
 	public static final int PILOT = 0;
@@ -134,6 +137,7 @@ public class HueyEntity extends VehicleEntity {
 	private final boolean[] trigger = new boolean[2];
 	private final int[] gunCooldown = new int[2];
 	private final boolean[] overheated = new boolean[2];
+	private final int[] overheatTicks = new int[2];
 
 	public HueyEntity(EntityType<? extends HueyEntity> type, Level level) {
 		super(type, level);
@@ -567,21 +571,26 @@ public class HueyEntity extends VehicleEntity {
 				this.gunCooldown[g]--;
 			}
 			boolean wantsFire = this.trigger[g] && this.getSeatOccupant(seat) instanceof Player;
-			if (wantsFire && !this.overheated[g] && this.gunCooldown[g] == 0) {
-				if (this.fireGun(level, (Player) this.getSeatOccupant(seat), seat)) {
+			if (this.overheated[g]) {
+				// Locked out. The gauge stays pinned at max until the barrel has cooled enough to fire again.
+				if (--this.overheatTicks[g] <= 0) {
+					this.overheated[g] = false;
+					heat = GUN_UNLOCK_HEAT;
+				}
+			} else if (wantsFire) {
+				// Holding the trigger: the barrel only heats up (no cooling between rounds).
+				if (this.gunCooldown[g] == 0 && this.fireGun(level, (Player) this.getSeatOccupant(seat), seat)) {
 					this.gunCooldown[g] = GUN_COOLDOWN_TICKS;
 					heat += GUN_HEAT_PER_SHOT;
 					if (heat >= GUN_OVERHEAT) {
 						heat = GUN_OVERHEAT;
 						this.overheated[g] = true;
+						this.overheatTicks[g] = GUN_OVERHEAT_LOCK_TICKS;
 						this.playSound(SoundEvents.FIRE_EXTINGUISH, 1.0F, 1.2F);
 					}
 				}
 			} else {
-				heat = Math.max(0.0F, heat - (this.overheated[g] ? 1.0F : 1.5F));
-				if (this.overheated[g] && heat <= 25.0F) {
-					this.overheated[g] = false;
-				}
+				heat = Math.max(0.0F, heat - GUN_COOL_PER_TICK);
 			}
 			if (heat != this.entityData.get(heatData)) {
 				this.entityData.set(heatData, heat);
