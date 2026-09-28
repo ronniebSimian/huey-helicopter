@@ -355,3 +355,6 @@ Only in the back seats. Mobs can never fly it or use the guns.
 
 **Will it wreck our base?**
 No. The door guns never break blocks, and when a Huey is shot down its explosion doesn't damage blocks, only nearby players and mobs.
+
+**Who made this?**
+It was built with [Claude Code](https://claude.com/claude-code) (Anthropic's AI), directed and play-tested by ronnieB. The AI wrote the code, the text and this guide. The 3D model, textures and sounds weren't made by image or audio generators. They're produced by scripts included in the source code on GitHub, so anyone can see exactly how they were made. Automated in-game tests check flying, the door guns and multiplayer before each release.
