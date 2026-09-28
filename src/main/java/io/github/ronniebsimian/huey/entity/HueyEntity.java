@@ -24,7 +24,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.InterpolationHandler;
-import net.minecraft.world.entity.LinearInterpolationHandler;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Input;
@@ -164,6 +163,7 @@ public class HueyEntity extends VehicleEntity {
 		}
 
 		super.tick();
+		this.interpolation.interpolate(); // 1.21.x: vehicles advance their own smoothing each tick
 
 		if (this.level() instanceof ServerLevel serverLevel) {
 			this.tickRotorSpool();
@@ -274,9 +274,11 @@ public class HueyEntity extends VehicleEntity {
 		}
 	}
 
+	private final InterpolationHandler interpolation = new InterpolationHandler(this, 3);
+
 	@Override
-	protected InterpolationHandler createInterpolationHandler() {
-		return LinearInterpolationHandler.create(this, 3);
+	public InterpolationHandler getInterpolation() {
+		return this.interpolation;
 	}
 
 	// ================================================================== seats
@@ -379,7 +381,7 @@ public class HueyEntity extends VehicleEntity {
 				return;
 			}
 		}
-		player.sendOverlayMessage(Component.translatable("huey.message.no_free_seat"));
+		player.displayClientMessage(Component.translatable("huey.message.no_free_seat"), true);
 	}
 
 	/** Seat position relative to the helicopter, rotated to its current heading. */
@@ -451,8 +453,8 @@ public class HueyEntity extends VehicleEntity {
 
 	// ================================================================== interaction
 	@Override
-	public InteractionResult interact(Player player, InteractionHand hand, Vec3 location) {
-		InteractionResult base = super.interact(player, hand, location);
+	public InteractionResult interact(Player player, InteractionHand hand) {
+		InteractionResult base = super.interact(player, hand);
 		if (base != InteractionResult.PASS) {
 			return base;
 		}
@@ -462,7 +464,7 @@ public class HueyEntity extends VehicleEntity {
 				this.setHealth(this.getHealth() + 10.0F);
 				stack.consume(1, player);
 				this.playSound(SoundEvents.ANVIL_USE, 0.6F, 1.4F);
-				player.sendOverlayMessage(Component.translatable("huey.message.repaired", Math.round(this.getHealth()), Math.round(MAX_HEALTH)));
+				player.displayClientMessage(Component.translatable("huey.message.repaired", Math.round(this.getHealth()), Math.round(MAX_HEALTH)), true);
 			}
 			return InteractionResult.SUCCESS;
 		}

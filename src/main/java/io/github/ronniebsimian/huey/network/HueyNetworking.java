@@ -42,8 +42,8 @@ public final class HueyNetworking {
 	}
 
 	public static void registerCommon() {
-		PayloadTypeRegistry.serverboundPlay().register(TriggerPayload.TYPE, TriggerPayload.CODEC);
-		PayloadTypeRegistry.serverboundPlay().register(SwitchSeatPayload.TYPE, SwitchSeatPayload.CODEC);
+		PayloadTypeRegistry.playC2S().register(TriggerPayload.TYPE, TriggerPayload.CODEC);
+		PayloadTypeRegistry.playC2S().register(SwitchSeatPayload.TYPE, SwitchSeatPayload.CODEC);
 
 		ServerPlayNetworking.registerGlobalReceiver(TriggerPayload.TYPE, (payload, context) -> {
 			if (context.player().getVehicle() instanceof HueyEntity huey) {

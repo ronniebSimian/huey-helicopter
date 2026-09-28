@@ -7,7 +7,7 @@ import io.github.ronniebsimian.huey.entity.HueyEntity;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
@@ -57,21 +57,21 @@ public class HueyRenderer extends EntityRenderer<HueyEntity, HueyRenderState> {
 	public void submit(HueyRenderState state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera) {
 		poseStack.pushPose();
 		poseStack.translate(0.0F, 1.5F, 0.0F); // tilt around the middle of the cabin, not the skids
-		poseStack.rotateDegrees(Axis.YP, 180.0F - state.yRot);
-		poseStack.rotateDegrees(Axis.XP, -state.pitch);
-		poseStack.rotateDegrees(Axis.ZP, state.roll);
+		poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - state.yRot));
+		poseStack.mulPose(Axis.XP.rotationDegrees(-state.pitch));
+		poseStack.mulPose(Axis.ZP.rotationDegrees(state.roll));
 		if (state.hurtTime > 0.0F) {
-			poseStack.rotateDegrees(Axis.ZP, Mth.sin(state.hurtTime) * state.hurtTime * state.damageTime / 40.0F * state.hurtDir);
+			poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.sin(state.hurtTime) * state.hurtTime * state.damageTime / 40.0F * state.hurtDir));
 		}
 		poseStack.translate(0.0F, -1.5F, 0.0F);
 		poseStack.scale(-1.0F, -1.0F, 1.0F);
-		collector.submitModel(this.model, state, poseStack, TEXTURE, state.lightCoords, OverlayTexture.NO_OVERLAY, state.outlineColor);
+		collector.submitModel(this.model, state, poseStack, this.model.renderType(TEXTURE), state.lightCoords, OverlayTexture.NO_OVERLAY, state.outlineColor, null);
 		poseStack.popPose();
 		super.submit(state, poseStack, collector, camera);
 	}
 
 	@Override
-	protected AABB getBoundingBoxForCulling(HueyEntity entity, float partialTicks) {
-		return super.getBoundingBoxForCulling(entity, partialTicks).inflate(6.0, 1.5, 6.0); // rotor & tail stick out
+	protected AABB getBoundingBoxForCulling(HueyEntity entity) {
+		return super.getBoundingBoxForCulling(entity).inflate(6.0, 1.5, 6.0); // rotor & tail stick out
 	}
 }

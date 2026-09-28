@@ -3,7 +3,7 @@ package io.github.ronniebsimian.huey;
 import io.github.ronniebsimian.huey.entity.HueyEntity;
 import io.github.ronniebsimian.huey.network.HueyNetworking;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -56,7 +56,7 @@ public class HueyMod implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		HueyNetworking.registerCommon();
-		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(output -> output.accept(HUEY_ITEM));
+		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> entries.accept(HUEY_ITEM));
 		LOGGER.info("Huey helicopter loaded. Get to the chopper.");
 	}
 }

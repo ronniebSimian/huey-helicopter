@@ -6,9 +6,9 @@ import io.github.ronniebsimian.huey.entity.HueyEntity;
 import io.github.ronniebsimian.huey.network.HueyNetworking;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -27,9 +27,9 @@ public class HueyModClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		ModelLayerRegistry.registerModelLayer(HueyModel.LAYER, HueyModelGeometry::create);
+		EntityModelLayerRegistry.registerModelLayer(HueyModel.LAYER, HueyModelGeometry::create);
 		EntityRenderers.register(HueyMod.HUEY, HueyRenderer::new);
-		KeyMappingHelper.registerKeyMapping(SWITCH_SEAT);
+		KeyBindingHelper.registerKeyBinding(SWITCH_SEAT);
 
 		HueyEntity.clientInput = () -> {
 			LocalPlayer player = Minecraft.getInstance().player;
@@ -51,7 +51,7 @@ public class HueyModClient implements ClientModInitializer {
 		HueyEntity huey = player != null && player.getVehicle() instanceof HueyEntity h ? h : null;
 
 		// door gun trigger: hold the attack button (left mouse)
-		boolean firing = huey != null && isManningGun() && mc.gui.screen() == null && mc.options.keyAttack.isDown();
+		boolean firing = huey != null && isManningGun() && mc.screen == null && mc.options.keyAttack.isDown();
 		if (firing != triggerSent && mc.getConnection() != null) {
 			ClientPlayNetworking.send(new HueyNetworking.TriggerPayload(firing));
 			triggerSent = firing;
@@ -69,7 +69,7 @@ public class HueyModClient implements ClientModInitializer {
 		}
 		int seat = huey.getSeatOf(player);
 		if (seat != lastSeat || player.tickCount % 10 == 0) {
-			player.sendOverlayMessage(hud(mc, huey, seat, seat != lastSeat));
+			player.displayClientMessage(hud(mc, huey, seat, seat != lastSeat), true);
 			lastSeat = seat;
 		}
 	}

@@ -9,7 +9,7 @@ import net.minecraft.client.CameraType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.phys.Vec3;
 
@@ -24,7 +24,7 @@ public class HueyClientGameTest implements FabricClientGameTest {
 	@Override
 	public void runTest(ClientGameTestContext context) {
 		try (TestSingleplayerContext world = context.worldBuilder().create()) {
-			world.getConnection().waitForChunksRender();
+			world.getClientWorld().waitForChunksRender();
 			int ground = world.getServer().computeOnServer(server -> {
 				ServerLevel level = server.overworld();
 				return level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING, 0, 0);
@@ -44,7 +44,7 @@ public class HueyClientGameTest implements FabricClientGameTest {
 				level.addFreshEntity(huey);
 				return huey.getId();
 			});
-			world.getConnection().waitForClientboundEntityUpdates(HueyMod.HUEY);
+			context.waitFor(mc -> mc.level != null && mc.level.getEntity(hueyId) != null);
 			context.getInput().pressKey(options -> options.keyToggleGui); // hide the HUD for clean "photos" (F1)
 			shoot(context, world, "01_front_left", X + 7, ground + 3, Z + 9, ground);
 			shoot(context, world, "02_left_side", X + 11, ground + 2, Z, ground);
@@ -54,14 +54,16 @@ public class HueyClientGameTest implements FabricClientGameTest {
 			context.getInput().pressKey(options -> options.keyToggleGui); // HUD back on
 
 			// --- board as pilot and fly
+			// walk up to it (let the teleport settle first, like a real player), then climb in
+			world.getServer().runCommand(String.format(java.util.Locale.ROOT, "tp @p %.2f %d %.2f", X + 3, ground, Z));
+			context.waitTicks(10);
 			world.getServer().runOnServer(server -> {
 				ServerPlayer player = server.getPlayerList().getPlayers().get(0);
-				player.teleportTo(X + 3, ground, Z);
 				player.startRiding(huey(server.overworld(), hueyId));
 			});
 			context.waitTicks(5);
 			context.runOnClient(mc -> mc.options.setCameraType(CameraType.THIRD_PERSON_BACK));
-			context.getInput().lookAt(0.0F, 15.0F);
+			look(context, 0.0F, 15.0F);
 			context.waitTicks(90); // rotor spool-up
 			context.takeScreenshot("06_pilot_spooled");
 			context.getInput().holdKeyFor(options -> options.keyJump, 60);
@@ -93,7 +95,7 @@ public class HueyClientGameTest implements FabricClientGameTest {
 				HueyEntity huey = huey(server.overworld(), hueyId);
 				huey.switchSeat(player); // pilot -> copilot
 				huey.switchSeat(player); // copilot -> left gunner
-				Zombie zombie = EntityTypes.ZOMBIE.create(server.overworld(), EntitySpawnReason.COMMAND);
+				Zombie zombie = EntityType.ZOMBIE.create(server.overworld(), EntitySpawnReason.COMMAND);
 				Vec3 left = new Vec3(Math.cos(Math.toRadians(huey.getYRot())), 0, Math.sin(Math.toRadians(huey.getYRot())));
 				Vec3 at = huey.position().add(left.scale(9));
 				zombie.snapTo(at.x, huey.getY() + 1, at.z, 0, 0);
@@ -112,14 +114,14 @@ public class HueyClientGameTest implements FabricClientGameTest {
 			// aim with the mouse (a /tp would kick the gunner out of the seat)
 			float[] aim = world.getServer().computeOnServer(server -> {
 				ServerPlayer player = server.getPlayerList().getPlayers().get(0);
-				var target = server.overworld().getEntities(EntityTypes.ZOMBIE, e -> e.entityTags().contains("huey_target")).get(0);
+				var target = server.overworld().getEntities(EntityType.ZOMBIE, e -> e.getTags().contains("huey_target")).get(0);
 				Vec3 d = target.getEyePosition().subtract(player.getEyePosition());
 				float yaw = (float) Math.toDegrees(Math.atan2(-d.x, d.z));
 				float pitch = (float) -Math.toDegrees(Math.atan2(d.y, d.horizontalDistance()));
 				return new float[] {yaw, pitch};
 			});
 			context.runOnClient(mc -> mc.options.setCameraType(CameraType.FIRST_PERSON));
-			context.getInput().lookAt(aim[0], aim[1]);
+			look(context, aim[0], aim[1]);
 			context.waitTicks(5);
 			context.takeScreenshot("10_gunner_aim");
 			context.getInput().holdKey(options -> options.keyAttack);
@@ -128,7 +130,7 @@ public class HueyClientGameTest implements FabricClientGameTest {
 			context.waitTicks(16);
 			context.getInput().releaseKey(options -> options.keyAttack);
 			// look forward-and-down: the gun on the outside of the door should follow
-			context.getInput().lookAt(aim[0] - 40.0F, 25.0F);
+			look(context, aim[0] - 40.0F, 25.0F);
 			context.runOnClient(mc -> mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT));
 			context.waitTicks(3);
 			context.takeScreenshot("11b_gun_follows_aim");
@@ -137,7 +139,7 @@ public class HueyClientGameTest implements FabricClientGameTest {
 				throw new AssertionError("gunner fell out of the seat while firing");
 			}
 			float zombieHealth = world.getServer().computeOnServer(server -> {
-				var list = server.overworld().getEntities(EntityTypes.ZOMBIE, e -> e.entityTags().contains("huey_target"));
+				var list = server.overworld().getEntities(EntityType.ZOMBIE, e -> e.getTags().contains("huey_target"));
 				return list.isEmpty() ? 0.0F : list.get(0).getHealth();
 			});
 			System.out.println("[HUEY TEST] zombie health after burst: " + zombieHealth);
@@ -155,9 +157,17 @@ public class HueyClientGameTest implements FabricClientGameTest {
 				huey(server.overworld(), hueyId).switchSeat(player); // -> pilot
 			});
 			context.waitTicks(5);
-			context.getInput().lookAt(0.0F, 10.0F);
+			look(context, 0.0F, 10.0F);
 			context.takeScreenshot("12_pilot_first_person");
 		}
+	}
+
+	/** This Fabric test kit has no lookAt(), so turn the player directly. */
+	private static void look(ClientGameTestContext context, float yaw, float pitch) {
+		context.runOnClient(mc -> {
+			mc.player.setYRot(yaw);
+			mc.player.setXRot(pitch);
+		});
 	}
 
 	private static HueyEntity huey(ServerLevel level, int id) {
@@ -167,7 +177,7 @@ public class HueyClientGameTest implements FabricClientGameTest {
 	private static void shoot(ClientGameTestContext context, TestSingleplayerContext world, String name, double x, double y, double z, int ground) {
 		world.getServer().runCommand(String.format(java.util.Locale.ROOT, "tp @p %.2f %.2f %.2f facing %.2f %.2f %.2f", x, y, z, X, ground + 1.8, Z));
 		context.waitTicks(3);
-		world.getConnection().waitForChunksRender();
+		world.getClientWorld().waitForChunksRender();
 		context.takeScreenshot(name);
 	}
 }

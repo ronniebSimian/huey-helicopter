@@ -5,7 +5,7 @@ import io.github.ronniebsimian.huey.entity.HueyEntity;
 import java.util.Properties;
 import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
-import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerConnection;
+import net.fabricmc.fabric.api.client.gametest.v1.context.TestServerConnection;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerContext;
 import net.minecraft.client.CameraType;
 import net.minecraft.server.level.ServerLevel;
@@ -24,9 +24,9 @@ public class HueyDedicatedServerTest implements FabricClientGameTest {
 		Properties props = new Properties();
 		props.setProperty("allow-flight", "false");
 		try (TestDedicatedServerContext server = context.worldBuilder().createServer(props);
-			TestDedicatedServerConnection connection = server.connect()) {
+			TestServerConnection connection = server.connect()) {
 			System.out.println("[HUEY MP TEST] connected");
-			connection.waitForChunksRender();
+			connection.getClientWorld().waitForChunksRender();
 			System.out.println("[HUEY MP TEST] chunks rendered");
 			int hueyId = server.computeOnServer(mc -> {
 				ServerPlayer player = mc.getPlayerList().getPlayers().get(0);

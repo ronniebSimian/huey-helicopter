@@ -29,7 +29,7 @@ public class HueyItem extends Item {
 		huey.snapTo(at.x, at.y, at.z, player != null ? player.getYRot() : 0.0F, 0.0F);
 		if (!level.noCollision(huey, huey.getBoundingBox())) {
 			if (player != null && !level.isClientSide()) {
-				player.sendOverlayMessage(net.minecraft.network.chat.Component.translatable("item.huey.huey.no_room"));
+				player.displayClientMessage(net.minecraft.network.chat.Component.translatable("item.huey.huey.no_room"), true);
 			}
 			return InteractionResult.FAIL;
 		}

@@ -50,20 +50,20 @@ Right-click the ground with the item to deploy it. It faces the way you're looki
 
 ## Installing
 
-> **Version matters.** This release is for **Minecraft 26.3**. The server and every player must be on the same Minecraft version and the same Huey release, or you'll be refused when you join.
+> **Version matters.** This branch is for **Minecraft 1.21.11**. (A 26.3 build lives on the `main` branch.) The server and every player must be on the same Minecraft version and the same Huey release, or you'll be refused when you join.
 
 ### For the server owner
 
-1. The server must be a **Fabric** server for Minecraft 26.3. Paper and Spigot servers can't load Fabric mods. If yours isn't Fabric yet, use the free server installer at <https://fabricmc.net/use/server/>. Your existing world carries over.
-2. Download **Fabric API** for 26.3 from <https://modrinth.com/mod/fabric-api> and put it in the server's `mods` folder (if it isn't there already).
-3. Download `huey-helicopter-<version>+mc26.3.jar` from this project's [Releases page](../../releases) and put it in the same `mods` folder.
+1. The server must be a **Fabric** server for Minecraft 1.21.11. Paper and Spigot servers can't load Fabric mods. If yours isn't Fabric yet, use the free server installer at <https://fabricmc.net/use/server/>. Your existing world carries over.
+2. Download **Fabric API** for 1.21.11 from <https://modrinth.com/mod/fabric-api> and put it in the server's `mods` folder (if it isn't there already).
+3. Download `huey-helicopter-<version>+mc1.21.11.jar` from this project's [Releases page](../../releases) and put it in the same `mods` folder.
 4. Restart the server.
 
 ### For each player
 
 Everyone who joins needs the mod too, because the 3D model, sounds and controls run on your own computer.
 
-1. Install **Fabric Loader** for Minecraft 26.3 from <https://fabricmc.net/use/installer/>, or use a launcher that handles it for you (Prism Launcher, the Modrinth App, or CurseForge).
+1. Install **Fabric Loader** for Minecraft 1.21.11 from <https://fabricmc.net/use/installer/>, or use a launcher that handles it for you (Prism Launcher, the Modrinth App, or CurseForge).
 2. Put **Fabric API** and the **Huey jar** in your `mods` folder.
 3. Launch the Fabric profile and join the server.
 
@@ -71,7 +71,7 @@ Everyone who joins needs the mod too, because the 3D model, sounds and controls 
 
 ## Building from source
 
-Needs a Java 25 JDK.
+Needs a Java 21+ JDK.
 
 ```bash
 ./gradlew build              # jar lands in build/libs/

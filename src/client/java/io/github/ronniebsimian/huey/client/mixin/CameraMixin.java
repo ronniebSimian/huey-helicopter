@@ -14,7 +14,7 @@ public class CameraMixin {
 	@Shadow
 	private Entity entity;
 
-	@ModifyArg(method = "alignWithEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;getMaxZoom(F)F"))
+	@ModifyArg(method = "setup", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;getMaxZoom(F)F"))
 	private float huey$zoomOut(float distance) {
 		return this.entity != null && this.entity.getVehicle() instanceof HueyEntity ? Math.max(distance, 14.0F) : distance;
 	}
