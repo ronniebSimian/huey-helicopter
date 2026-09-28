@@ -1,6 +1,6 @@
 # Huey Helicopter: Complete Player Guide
 
-*For the Huey Helicopter mod, version 0.1.0. Download: <https://modrinth.com/mod/huey-helicopter>. Source code: <https://github.com/ronniebSimian/huey-helicopter>*
+*For the Huey Helicopter mod, version 0.1.1. Download: <https://modrinth.com/mod/huey-helicopter>. Source code: <https://github.com/ronniebSimian/huey-helicopter>*
 
 ---
 
@@ -53,8 +53,8 @@ Download the mod from either place (the files are identical):
 
 | Your Minecraft version | File to download |
 |---|---|
-| **1.21.11** (Lunar Client users, most likely this one) | `huey-helicopter-0.1.0+mc1.21.11.jar` |
-| **26.3** | `huey-helicopter-0.1.0+mc26.3.jar` |
+| **1.21.11** (Lunar Client users, most likely this one) | `huey-helicopter-0.1.1+mc1.21.11.jar` |
+| **26.3** | `huey-helicopter-0.1.1+mc26.3.jar` |
 
 **How to find your version:** it's shown in your launcher next to the Play button. In Lunar Client, it's the version picker on the main screen.
 
@@ -70,7 +70,7 @@ Use this if your group plays on a Lunar **Hosted World**, meaning you join an ad
 
 **Every person does these steps, including the host:**
 
-1. Download `huey-helicopter-0.1.0+mc1.21.11.jar` (see [section 2](#2-which-download-do-i-need)).
+1. Download `huey-helicopter-0.1.1+mc1.21.11.jar` (see [section 2](#2-which-download-do-i-need)).
 2. Open **Lunar Client**.
 3. Select Minecraft **1.21.11**.
 4. Make sure the **Fabric** add-on is turned on for that version.
@@ -235,9 +235,10 @@ While you're in a gunner seat, left-click fires the gun instead of punching or b
 
 ### Overheating
 
-- The heat bar slowly fills while you hold the trigger. It takes roughly **30 seconds of non-stop firing** (about 200 rounds) to fill it.
-- When it's full, you'll see **"M60 OVERHEATED"** in red and hear a hiss. **The gun won't fire until it cools down** (about 4 seconds).
-- Letting go of the trigger cools the barrel quickly.
+- Each shot heats the barrel. **Holding the trigger non-stop overheats the gun in about 4 seconds** (about 29 rounds).
+- When it's full, you'll see **"M60 OVERHEATED"** in red and hear a hiss. **The gun is locked for about 4 seconds** while it cools, even if you keep holding the trigger.
+- Letting go of the trigger cools the barrel quickly (a full bar cools in about 3 seconds).
+- **Fire in short bursts** to keep shooting longer without getting locked out.
 
 ### Aiming limits and stats
 
@@ -267,7 +268,7 @@ Yes. It works on the ground with nobody flying, which is good for target practic
 
 - **The classic setup is 4 people:** pilot, copilot as a spare pilot or lookout, and both door gunners.
 - **Fly sideways past your targets.** The door guns point out the sides, so the gunner on that side has the shot.
-- **Gunners, keep an eye on the heat bar** on long engagements. Let go of the trigger for a moment to cool the gun before it locks up.
+- **Gunners, fire in bursts.** Two gunners taking turns keep up almost constant fire, and neither gun locks up.
 - **Watch the HULL number.** Land and repair with iron ingots before it gets low.
 - **For an insertion, bring troops in the door seats.** Hover low, and they press Shift to hop out.
 

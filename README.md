@@ -60,14 +60,14 @@ Right-click the ground with the item to deploy it. It faces the way you're looki
 
 | Minecraft version | Download | Source branch |
 |---|---|---|
-| **1.21.11** (Lunar Client friendly) | `huey-helicopter-0.1.0+mc1.21.11.jar` | [`mc1.21.11`](../../tree/mc1.21.11) |
-| **26.3** | `huey-helicopter-0.1.0+mc26.3.jar` | `main` |
+| **1.21.11** (Lunar Client friendly) | `huey-helicopter-0.1.1+mc1.21.11.jar` | [`mc1.21.11`](../../tree/mc1.21.11) |
+| **26.3** | `huey-helicopter-0.1.1+mc26.3.jar` | `main` |
 
 ### Playing on a Lunar Client Hosted World
 
 If your group plays on a Lunar **Hosted World** (an address like `yourname.lunarclient.world`), there is no separate server to set up. The host's own Lunar Client runs the world.
 
-1. **Everyone, including the host:** open Lunar Client, choose **1.21.11** with the **Fabric** add-on enabled, open the **Mods** window, and drag in `huey-helicopter-0.1.0+mc1.21.11.jar`. Lunar's Fabric add-on already includes Fabric API. Only add a Fabric API jar yourself if Lunar says it's missing.
+1. **Everyone, including the host:** open Lunar Client, choose **1.21.11** with the **Fabric** add-on enabled, open the **Mods** window, and drag in `huey-helicopter-0.1.1+mc1.21.11.jar`. Lunar's Fabric add-on already includes Fabric API. Only add a Fabric API jar yourself if Lunar says it's missing.
 2. **The host** launches the game, opens the world and hosts it as usual.
 3. **Friends** join the `yourname.lunarclient.world` address as usual.
 

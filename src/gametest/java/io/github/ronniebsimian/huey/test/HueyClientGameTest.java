@@ -144,6 +144,31 @@ public class HueyClientGameTest implements FabricClientGameTest {
 			if (zombieHealth > 10.0F) {
 				throw new AssertionError("door gun did no damage");
 			}
+			// --- hold the trigger until the M60 overheats (~29 rounds, ~4.4 s), then check the ~4 s lockout
+			context.getInput().lookAt(aim[0], aim[1]);
+			context.runOnClient(mc -> mc.options.setCameraType(CameraType.FIRST_PERSON));
+			context.waitTicks(40); // let the barrel cool from the earlier bursts
+			context.getInput().holdKey(options -> options.keyAttack);
+			int ticksToOverheat = 0;
+			while (ticksToOverheat < 200 && !world.getServer().computeOnServer(server -> huey(server.overworld(), hueyId).isOverheated(HueyEntity.GUNNER_LEFT))) {
+				context.waitTick();
+				ticksToOverheat++;
+			}
+			context.takeScreenshot("11c_gun_overheated");
+			System.out.println("[HUEY TEST] continuous fire overheated after " + ticksToOverheat + " ticks");
+			if (ticksToOverheat < 60 || ticksToOverheat > 120) {
+				throw new AssertionError("M60 should overheat after ~4.4 s of continuous fire, took " + ticksToOverheat + " ticks");
+			}
+			context.waitTicks(40); // still holding the trigger: must stay locked
+			boolean lockedStill = world.getServer().computeOnServer(server -> huey(server.overworld(), hueyId).isOverheated(HueyEntity.GUNNER_LEFT));
+			context.getInput().releaseKey(options -> options.keyAttack);
+			context.waitTicks(45);
+			float heatAfter = world.getServer().computeOnServer(server -> huey(server.overworld(), hueyId).getGunHeat(HueyEntity.GUNNER_LEFT));
+			boolean unlocked = !world.getServer().computeOnServer(server -> huey(server.overworld(), hueyId).isOverheated(HueyEntity.GUNNER_LEFT));
+			System.out.println("[HUEY TEST] locked after 2 s=" + lockedStill + ", unlocked after ~4.3 s=" + unlocked + " heat=" + heatAfter);
+			if (!lockedStill || !unlocked || heatAfter > 25.0F) {
+				throw new AssertionError("overheat lockout wrong: lockedStill=" + lockedStill + " unlocked=" + unlocked + " heat=" + heatAfter);
+			}
 			context.runOnClient(mc -> mc.options.setCameraType(CameraType.FIRST_PERSON));
 			world.getServer().runOnServer(server -> {
 				ServerPlayer player = server.getPlayerList().getPlayers().get(0);
