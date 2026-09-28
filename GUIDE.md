@@ -1,6 +1,6 @@
 # Huey Helicopter: Complete Player Guide
 
-*For the Huey Helicopter mod, version 0.1.0. Project page: <https://github.com/ronniebSimian/huey-helicopter>*
+*For the Huey Helicopter mod, version 0.1.0. Download: <https://modrinth.com/mod/huey-helicopter>. Source code: <https://github.com/ronniebSimian/huey-helicopter>*
 
 ---
 
@@ -46,7 +46,10 @@ It runs on **Fabric**, a common way to add mods to Minecraft. It works with Luna
 
 ## 2. Which download do I need?
 
-Downloads are on the **Releases** page: <https://github.com/ronniebSimian/huey-helicopter/releases>
+Download the mod from either place (the files are identical):
+
+- **Modrinth:** <https://modrinth.com/mod/huey-helicopter>. Pick your Minecraft version and click Download.
+- **GitHub Releases:** <https://github.com/ronniebSimian/huey-helicopter/releases>
 
 | Your Minecraft version | File to download |
 |---|---|
@@ -337,6 +340,9 @@ Yes, through Lunar's Fabric add-on on a Minecraft version Lunar supports with Fa
 
 **Does it work on Bedrock, Xbox, PlayStation, Switch or mobile?**
 No. It's a Java Edition mod for computers only.
+
+**How do I get updates?**
+New versions are posted on Modrinth (<https://modrinth.com/mod/huey-helicopter>) and GitHub. If you use the **Modrinth App** or **Prism Launcher**, it can update the mod for you. **Lunar Client** users update by hand: download the new `.jar` and replace the old one in Lunar's Mods window. Click **Follow** on the Modrinth page to be told when a new version comes out. Everyone playing together should update at the same time.
 
 **Is it free?**
 Yes. It's open source under the MIT license, so anyone can use it, share it or change it.
