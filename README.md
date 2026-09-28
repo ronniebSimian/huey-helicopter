@@ -8,6 +8,8 @@ A flyable **Bell UH-1 "Huey"** for Minecraft (Fabric). Bring your squad: a pilot
 |---|---|
 | ![Door gunner view](docs/images/door-gunner.png) | ![Rear view with markings](docs/images/huey-rear.png) |
 
+> 📖 **Full step-by-step guide:** [GUIDE.md](GUIDE.md) (or the printable [PDF](docs/Huey-Helicopter-Guide.pdf)). It covers installing, boarding, flying, door guns and troubleshooting. You can also hand the guide to an AI assistant (ChatGPT, Claude and so on) and it will coach you through it.
+
 ## Features
 
 - **Flyable, arcade-style.** The rotor spins up over about 4 seconds, then you can lift off, hover hands-free, fly forward with the nose tilted down, and bank into turns.
