@@ -15,7 +15,7 @@ jobs:
       - uses: gradle/actions/wrapper-validation@v6
       - uses: actions/setup-java@v5
         with:
-          java-version: '21'
+          java-version: '25'  # the build tool needs 25; the mod itself targets Java 21
           distribution: 'microsoft'
       - run: chmod +x ./gradlew && ./gradlew build
       - name: publish release

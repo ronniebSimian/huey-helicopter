@@ -71,7 +71,7 @@ Everyone who joins needs the mod too, because the 3D model, sounds and controls 
 
 ## Building from source
 
-Needs a Java 21+ JDK.
+Needs a Java 25 JDK to build (the finished mod runs on Java 21).
 
 ```bash
 ./gradlew build              # jar lands in build/libs/
