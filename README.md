@@ -8,6 +8,8 @@ A flyable **Bell UH-1 "Huey"** for Minecraft (Fabric). Bring your squad: a pilot
 |---|---|
 | ![Door gunner view](docs/images/door-gunner.png) | ![Rear view with markings](docs/images/huey-rear.png) |
 
+**Download:** [Modrinth](https://modrinth.com/mod/huey-helicopter) (the Modrinth App and Prism Launcher can keep it updated for you) or [GitHub Releases](../../releases).
+
 > 📖 **Full step-by-step guide:** [GUIDE.md](GUIDE.md) (or the printable [PDF](docs/Huey-Helicopter-Guide.pdf)). It covers installing, boarding, flying, door guns and troubleshooting. You can also hand the guide to an AI assistant (ChatGPT, Claude and so on) and it will coach you through it.
 
 ## Features
