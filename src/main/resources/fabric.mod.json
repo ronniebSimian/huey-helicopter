@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "huey",
+	"version": "${version}",
+	"name": "Huey Helicopter",
+	"description": "A flyable UH-1 'Huey' helicopter with a pilot, copilot, troop benches and two M60 door guns. Built for playing with your squad.",
+	"authors": [
+		"ronniebSimian"
+	],
+	"contact": {
+		"homepage": "https://github.com/ronniebSimian/huey-helicopter",
+		"sources": "https://github.com/ronniebSimian/huey-helicopter",
+		"issues": "https://github.com/ronniebSimian/huey-helicopter/issues"
+	},
+	"license": "MIT",
+	"icon": "assets/huey/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"io.github.ronniebsimian.huey.HueyMod"
+		],
+		"client": [
+			"io.github.ronniebsimian.huey.client.HueyModClient"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	},
+	"mixins": [
+		{
+			"config": "huey.client.mixins.json",
+			"environment": "client"
+		}
+	]
+}

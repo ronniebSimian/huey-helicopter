@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"package": "io.github.ronniebsimian.huey.client.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"CameraMixin",
+		"MinecraftMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

@@ -1,0 +1,10 @@
+{
+	"entity.huey.rotor": {
+		"subtitle": "subtitles.entity.huey.rotor",
+		"sounds": [{ "name": "huey:rotor", "stream": false }]
+	},
+	"entity.huey.door_gun": {
+		"subtitle": "subtitles.entity.huey.door_gun",
+		"sounds": ["huey:door_gun_1", "huey:door_gun_2", "huey:door_gun_3"]
+	}
+}
