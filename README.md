@@ -50,7 +50,16 @@ Right-click the ground with the item to deploy it. It faces the way you're looki
 
 ## Installing
 
-> **Version matters.** This release is for **Minecraft 26.3**. The server and every player must be on the same Minecraft version and the same Huey release, or you'll be refused when you join.
+> **Version matters.** The server and every player must be on the same Minecraft version and the same Huey download, or you'll be refused when you join.
+
+**Which download do I need?** Grab the jar that matches your Minecraft version from the [Releases page](../../releases):
+
+| Minecraft version | Download | Source branch |
+|---|---|---|
+| **1.21.11** (works with Lunar Client) | `huey-helicopter-0.1.0+mc1.21.11.jar` | [`mc1.21.11`](../../tree/mc1.21.11) |
+| **26.3** | `huey-helicopter-0.1.0+mc26.3.jar` | `main` |
+
+The steps below say "26.3". If you're on 1.21.11, use 1.21.11 everywhere instead.
 
 ### For the server owner
 
