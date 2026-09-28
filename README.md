@@ -56,10 +56,8 @@ Right-click the ground with the item to deploy it. It faces the way you're looki
 
 | Minecraft version | Download | Source branch |
 |---|---|---|
-| **1.21.11** (works with Lunar Client) | `huey-helicopter-0.1.0+mc1.21.11.jar` | [`mc1.21.11`](../../tree/mc1.21.11) |
+| **1.21.11** (Lunar Client friendly) | `huey-helicopter-0.1.0+mc1.21.11.jar` | [`mc1.21.11`](../../tree/mc1.21.11) |
 | **26.3** | `huey-helicopter-0.1.0+mc26.3.jar` | `main` |
-
-The steps below say "26.3". If you're on 1.21.11, use 1.21.11 everywhere instead.
 
 ### Playing on a Lunar Client Hosted World
 
@@ -72,6 +70,9 @@ If your group plays on a Lunar **Hosted World** (an address like `yourname.lunar
 If anyone is missing the mod, they can't join, so make sure the whole squad has it.
 
 ### For the server owner
+
+These steps and the player steps below say "26.3". If you're on 1.21.11, use 1.21.11 everywhere instead.
+
 
 1. The server must be a **Fabric** server for Minecraft 26.3. Paper and Spigot servers can't load Fabric mods. If yours isn't Fabric yet, use the free server installer at <https://fabricmc.net/use/server/>. Your existing world carries over.
 2. Download **Fabric API** for 26.3 from <https://modrinth.com/mod/fabric-api> and put it in the server's `mods` folder (if it isn't there already).
